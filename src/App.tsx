@@ -10,12 +10,10 @@ import { Scanner } from './components/Scanner';
 import { Patients } from './components/Patients';
 import { Advisor } from './components/Advisor';
 import { Login } from './components/Login';
-import { Preloader } from './components/Preloader';
 import { Patient, Scan } from './types';
 import { useRealtimeSync } from './lib/useRealtimeSync';
 
 export default function App() {
-  const [showPreloader, setShowPreloader] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(
     localStorage.getItem('isLoggedIn') === 'true'
   );
@@ -54,13 +52,13 @@ export default function App() {
     setIsAuthenticated(true);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('isLoggedIn');
+    setIsAuthenticated(false);
+  };
+
   return (
     <>
-      {/* 3D DRishti Logo Reveal Preloader Screen (matching uploaded video) */}
-      {showPreloader && (
-        <Preloader onComplete={() => setShowPreloader(false)} durationMs={2600} />
-      )}
-
       {!isAuthenticated ? (
         <Login onLogin={handleLogin} />
       ) : (
@@ -68,7 +66,7 @@ export default function App() {
           <Sidebar 
             currentView={currentView} 
             onChangeView={setCurrentView} 
-            onReplayIntro={() => setShowPreloader(true)}
+            onLogout={handleLogout}
             activeDevices={activeDevices}
           />
           

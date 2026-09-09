@@ -6,7 +6,7 @@ import {
   Stethoscope,
   Activity,
   Bot,
-  PlayCircle
+  LogOut
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { DrishtiLogo } from './DrishtiLogo';
@@ -14,11 +14,11 @@ import { DrishtiLogo } from './DrishtiLogo';
 interface SidebarProps {
   currentView: string;
   onChangeView: (view: string) => void;
-  onReplayIntro?: () => void;
+  onLogout?: () => void;
   activeDevices?: number;
 }
 
-export function Sidebar({ currentView, onChangeView, onReplayIntro, activeDevices = 1 }: SidebarProps) {
+export function Sidebar({ currentView, onChangeView, onLogout, activeDevices = 1 }: SidebarProps) {
   const navItems = [
     { id: 'dashboard', label: 'Diagnostic Desk', icon: LayoutDashboard },
     { id: 'patients', label: 'Patient Database', icon: Users },
@@ -67,16 +67,6 @@ export function Sidebar({ currentView, onChangeView, onReplayIntro, activeDevice
             )}
           </button>
         ))}
-
-        {onReplayIntro && (
-          <button
-            onClick={onReplayIntro}
-            className="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition-colors mt-4"
-          >
-            <PlayCircle className="w-3.5 h-3.5" />
-            <span>Replay 3D Intro</span>
-          </button>
-        )}
       </div>
       
       <div className="p-4 border-t border-slate-200 shrink-0 space-y-2">
@@ -88,12 +78,23 @@ export function Sidebar({ currentView, onChangeView, onReplayIntro, activeDevice
           <span>{activeDevices} screen{activeDevices > 1 ? 's' : ''}</span>
         </div>
 
-        <div className="flex items-center space-x-3 text-slate-600 bg-slate-50 border border-slate-100 p-2.5 rounded-lg">
-          <Stethoscope className="w-4 h-4 text-sky-600" />
-          <div className="text-left">
-             <p className="text-xs font-bold text-slate-700">Dr. Ananya Sharma</p>
-             <p className="text-[10px] text-emerald-600 font-medium">Active • Rural Unit #4</p>
+        <div className="flex items-center justify-between text-slate-600 bg-slate-50 border border-slate-100 p-2.5 rounded-lg">
+          <div className="flex items-center space-x-2.5 overflow-hidden">
+            <Stethoscope className="w-4 h-4 text-sky-600 shrink-0" />
+            <div className="text-left truncate">
+               <p className="text-xs font-bold text-slate-700 truncate">Dr. Ananya Sharma</p>
+               <p className="text-[10px] text-emerald-600 font-medium">Active • Rural Unit #4</p>
+            </div>
           </div>
+          {onLogout && (
+            <button
+              onClick={onLogout}
+              title="Log out"
+              className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors cursor-pointer shrink-0 ml-1"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+            </button>
+          )}
         </div>
       </div>
     </aside>

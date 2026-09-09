@@ -572,16 +572,32 @@ Instructions:
 5. Address nutritional deficiencies: Lutein, Zeaxanthin, Vitamin A, Vitamin C, Vitamin E, and Omega-3.
 6. Keep tone respectful, clear, structured, and clinically responsible. Include a clear disclaimer that severe disease requires an ophthalmologist.`;
 
-  // 1. Attempt connection to local Ollama with llama3.2:3b
+  // 1. Attempt connection to local Ollama (auto-detecting llama3.2, llama3.2:3b, etc.)
   try {
+    let selectedModel = "llama3.2";
+    try {
+      const tagsController = new AbortController();
+      const tagsTimeout = setTimeout(() => tagsController.abort(), 1000);
+      const tagsRes = await fetch("http://localhost:11434/api/tags", { signal: tagsController.signal });
+      clearTimeout(tagsTimeout);
+      if (tagsRes.ok) {
+        const tagsData = await tagsRes.json();
+        const names = tagsData.models?.map((m: any) => m.name) || [];
+        const found = names.find((n: string) => n.includes("llama3.2") || n.includes("llama3"));
+        if (found) selectedModel = found;
+      }
+    } catch {
+      selectedModel = "llama3.2";
+    }
+
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 3500);
+    const timeoutId = setTimeout(() => controller.abort(), 6000);
 
     const ollamaRes = await fetch("http://localhost:11434/api/generate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "llama3.2:3b",
+        model: selectedModel,
         prompt: `${systemPrompt}\n\nPatient Query: ${lastUserMessage}\n\nAdvisor Response:`,
         stream: false
       }),
@@ -593,7 +609,7 @@ Instructions:
       const data = await ollamaRes.json();
       if (data.response) {
         return res.json({
-          source: "Ollama (llama3.2:3b - Local Edge AI)",
+          source: `Ollama (${selectedModel} - Local Edge AI)`,
           reply: data.response,
           grade,
           urgent_referral: grade >= 3
