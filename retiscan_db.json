@@ -1,0 +1,77 @@
+{
+  "patients": [
+    {
+      "id": 1,
+      "name": "Rameshwar Patel",
+      "age": 58,
+      "gender": "Male",
+      "phone": "+91 98234 11204",
+      "village": "Rampur PHC (Block B)",
+      "diabetes_years": 12,
+      "blood_sugar": 215,
+      "hba1c": 8.6,
+      "systolic_bp": 142,
+      "diastolic_bp": 88,
+      "medical_history": "Type-2 Diabetes on Metformin. Reports progressive blurred vision in right eye.",
+      "created_at": "2026-09-07T10:44:10.181Z"
+    },
+    {
+      "id": 2,
+      "name": "Kamla Devi",
+      "age": 62,
+      "gender": "Female",
+      "phone": "+91 94150 88231",
+      "village": "Kalyanpur Health Sub-centre",
+      "diabetes_years": 7,
+      "blood_sugar": 168,
+      "hba1c": 7.2,
+      "systolic_bp": 130,
+      "diastolic_bp": 82,
+      "medical_history": "Mild hypertension, controlled blood glucose. Annual routine screening.",
+      "created_at": "2026-09-08T10:44:10.181Z"
+    },
+    {
+      "id": 3,
+      "name": "Test Sync Patient",
+      "age": 45,
+      "gender": "Male",
+      "phone": "",
+      "village": "Rampur PHC",
+      "blood_sugar": 195,
+      "medical_history": "",
+      "created_at": "2026-09-09T10:44:27.095Z",
+      "updated_at": "2026-09-09T10:44:27.095Z"
+    }
+  ],
+  "scans": [
+    {
+      "id": 1,
+      "patient_id": 1,
+      "patient_name": "Rameshwar Patel",
+      "scan_type": "UPLOAD",
+      "image_path": "uploads/sample_fundus_npdr.jpg",
+      "grade": 2.6,
+      "confidence": 94.8,
+      "diagnosis": "Moderate Non-Proliferative Diabetic Retinopathy (NPDR). Multiple microaneurysms and hard exudates detected in macular arcade.",
+      "explainability": "MATLAB Grad-CAM localized significant vascular micro-lesions and lipid deposition in the superior-temporal arcade.",
+      "clinical_action": "Refer to District Hospital Vitreo-Retina specialist within 3-4 weeks. Initiate strict glycemic control.",
+      "risk_tier": "High",
+      "engine": "MATLAB-DeepLearning-ResNet50",
+      "created_at": "2026-09-08T14:44:10.181Z"
+    },
+    {
+      "id": 2,
+      "patient_id": 2,
+      "patient_name": "Kamla Devi",
+      "scan_type": "ADAPTIVE_LENS",
+      "grade": 0.4,
+      "confidence": 98.1,
+      "diagnosis": "No Diabetic Retinopathy detected. Clear optic disc margins, sharp macular reflex, no vascular anomalies.",
+      "explainability": "MATLAB Grad-CAM confirmed uniform vascular morphology with zero pathological activation clusters.",
+      "clinical_action": "Routine annual follow-up screening in 12 months. Continue prescribed diet and physical activity.",
+      "risk_tier": "Low",
+      "engine": "MATLAB-DeepLearning-ResNet50",
+      "created_at": "2026-09-09T05:44:10.181Z"
+    }
+  ]
+}

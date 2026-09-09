@@ -1,0 +1,6 @@
+{
+  "name": "RetiScan AI",
+  "description": "Smart India Hackathon prototype for rural diabetic retinopathy screening using AI and specialized fundus lens smartphone attachments.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
