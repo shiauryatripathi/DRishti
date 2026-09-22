@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Scan } from '../types';
-import { Activity, Clock, FileText, Cpu, CheckCircle2, ChevronRight, Eye, Sparkles } from 'lucide-react';
+import { Scan, Patient } from '../types';
+import { Activity, Clock, FileText, Cpu, CheckCircle2, ChevronRight, Eye, Sparkles, Camera } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { useRealtimeSync } from '../lib/useRealtimeSync';
+import { ExplainableAIModal } from './ExplainableAIModal';
+import { ConfidenceGauge } from './ConfidenceGauge';
 
 interface DashboardProps {
-  onNavigateToScan?: () => void;
-  onNavigateToAdvisor?: () => void;
+  onNavigateToScan?: (patientId?: number) => void;
+  onNavigateToAdvisor?: (patientId?: number) => void;
+  onNavigateToPatient?: (patientId: number) => void;
 }
 
-export function Dashboard({ onNavigateToScan, onNavigateToAdvisor }: DashboardProps) {
+export function Dashboard({ onNavigateToScan, onNavigateToAdvisor, onNavigateToPatient }: DashboardProps) {
   const [scans, setScans] = useState<Scan[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedScan, setSelectedScan] = useState<Scan | null>(null);
@@ -78,11 +81,22 @@ export function Dashboard({ onNavigateToScan, onNavigateToAdvisor }: DashboardPr
           </p>
         </div>
 
-        <div className="flex items-center gap-2 bg-white border border-slate-200 rounded-lg px-3 py-1.5 shadow-2xs">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="text-[11px] font-mono text-slate-700">
-            P2P Sync: <strong className="text-emerald-700">{activeDevices} Screen{activeDevices > 1 ? 's' : ''}</strong> Online
-          </span>
+        <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2 bg-white border border-slate-200 rounded-lg px-3 py-1.5 shadow-2xs">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-[11px] font-mono text-slate-700">
+              P2P Sync: <strong className="text-emerald-700">{activeDevices} Screen{activeDevices > 1 ? 's' : ''}</strong> Online
+            </span>
+          </div>
+          {onNavigateToScan && (
+            <button
+              onClick={() => onNavigateToScan()}
+              className="bg-sky-600 hover:bg-sky-700 text-white px-3.5 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-xs cursor-pointer transition-colors"
+            >
+              <Camera className="w-3.5 h-3.5" />
+              <span>Diagnose</span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -148,7 +162,16 @@ export function Dashboard({ onNavigateToScan, onNavigateToAdvisor }: DashboardPr
                   onClick={() => setSelectedScan(scan)}
                 >
                   <td className="px-5 py-3 font-bold text-sky-900 whitespace-nowrap">
-                    {scan.patient_name || `Patient #${scan.patient_id}`}
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (onNavigateToPatient) onNavigateToPatient(scan.patient_id);
+                      }}
+                      className="hover:underline text-left cursor-pointer inline-flex items-center"
+                      title="View Full Patient History"
+                    >
+                      {scan.patient_name || 'Patient'} ({scan.patient_id.toString().padStart(12, '943782930000')})
+                    </button>
                   </td>
                   <td className="px-5 py-3 whitespace-nowrap">
                     <span className={cn(
@@ -176,29 +199,48 @@ export function Dashboard({ onNavigateToScan, onNavigateToAdvisor }: DashboardPr
                       )}>
                         {scan.grade < 1 ? 'No DR' : scan.grade < 2 ? 'Mild' : scan.grade < 3 ? 'Moderate' : 'Severe'}
                       </span>
+                      <ConfidenceGauge 
+                        confidence={scan.confidence ?? 95.5} 
+                        size="sm" 
+                      />
                     </div>
                   </td>
                   <td className="px-5 py-3 text-slate-700 truncate max-w-sm">
                     {scan.diagnosis}
                   </td>
                   <td className="px-5 py-3 text-right whitespace-nowrap">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setSelectedScan(scan);
-                      }}
-                      className="text-sky-600 hover:text-sky-800 font-bold text-[11px] inline-flex items-center gap-1"
-                    >
-                      <span>View Dossier</span>
-                      <ChevronRight className="w-3.5 h-3.5" />
-                    </button>
+                    <div className="flex items-center justify-end gap-2.5">
+                      {onNavigateToAdvisor && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onNavigateToAdvisor(scan.patient_id);
+                          }}
+                          className="text-indigo-600 hover:text-indigo-800 font-bold text-[11px] inline-flex items-center gap-1 hover:underline cursor-pointer"
+                          title="Track Longitudinal Disease Progression in Advisor"
+                        >
+                          <Activity className="w-3 h-3" />
+                          <span>Timeline</span>
+                        </button>
+                      )}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedScan(scan);
+                        }}
+                        className="text-sky-600 hover:text-sky-800 font-bold text-[11px] inline-flex items-center gap-1 cursor-pointer"
+                      >
+                        <span>View Dossier</span>
+                        <ChevronRight className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
               {scans.length === 0 && (
                 <tr>
                   <td colSpan={6} className="px-5 py-8 text-center text-slate-500 text-sm">
-                    No scans found. Start by conducting a new AI scan on your mobile or desktop.
+                    No scans recorded yet. Pick a registered patient at the Diagnostic Station to perform their retinal scan.
                   </td>
                 </tr>
               )}
@@ -207,84 +249,25 @@ export function Dashboard({ onNavigateToScan, onNavigateToAdvisor }: DashboardPr
         </div>
       </div>
 
-      {/* Selected Scan Detail Modal / Popover */}
-      {selectedScan && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 space-y-4 animate-in zoom-in-95 duration-200">
-            <div className="flex justify-between items-start border-b border-slate-100 pb-3">
-              <div>
-                <h3 className="text-base font-bold text-slate-900">
-                  {selectedScan.patient_name || `Patient #${selectedScan.patient_id}`}
-                </h3>
-                <p className="text-[11px] text-slate-500">
-                  Scan ID: #{selectedScan.id} • {new Date(selectedScan.created_at).toLocaleString()}
-                </p>
-              </div>
-              <button
-                onClick={() => setSelectedScan(null)}
-                className="text-slate-400 hover:text-slate-600 font-bold text-sm px-2 py-1"
-              >
-                ✕
-              </button>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200/70">
-              <div>
-                <span className="text-[9px] uppercase font-bold text-slate-400 block">Severity Grade</span>
-                <span className={cn(
-                  "text-2xl font-black",
-                  selectedScan.grade < 1 ? "text-emerald-500" : selectedScan.grade < 3 ? "text-amber-500" : "text-red-500"
-                )}>
-                  {selectedScan.grade.toFixed(1)} / 4.0
-                </span>
-              </div>
-              <div>
-                <span className="text-[9px] uppercase font-bold text-slate-400 block">AI Engine</span>
-                <span className="text-xs font-bold text-slate-800 mt-1 block">
-                  {selectedScan.engine || 'MATLAB ResNet-50'}
-                </span>
-              </div>
-            </div>
-
-            <div className="space-y-1">
-              <h4 className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Clinical Diagnosis</h4>
-              <p className="text-xs text-slate-700 bg-white border border-slate-200 p-3 rounded-lg leading-relaxed">
-                {selectedScan.diagnosis}
-              </p>
-            </div>
-
-            {selectedScan.explainability && (
-              <div className="space-y-1">
-                <h4 className="text-[10px] font-bold uppercase tracking-wider text-purple-700">MATLAB Grad-CAM Explainability</h4>
-                <p className="text-xs text-purple-900 bg-purple-50/70 border border-purple-100 p-3 rounded-lg leading-relaxed">
-                  {selectedScan.explainability}
-                </p>
-              </div>
-            )}
-
-            <div className="flex gap-2 pt-2">
-              {onNavigateToAdvisor && (
-                <button
-                  onClick={() => {
-                    setSelectedScan(null);
-                    onNavigateToAdvisor();
-                  }}
-                  className="flex-1 bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-700 hover:to-indigo-700 text-white font-bold text-xs py-2.5 rounded-lg flex items-center justify-center gap-1.5 shadow-sm"
-                >
-                  <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                  <span>Get Diet & Remedies in Advisor</span>
-                </button>
-              )}
-              <button
-                onClick={() => setSelectedScan(null)}
-                className="px-4 py-2.5 rounded-lg border border-slate-200 text-slate-700 text-xs font-bold hover:bg-slate-50"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Explainable AI (XAI) Comprehensive Clinical Dossier Modal */}
+      <ExplainableAIModal
+        isOpen={!!selectedScan}
+        scan={selectedScan}
+        onClose={() => setSelectedScan(null)}
+        onRefreshXAI={async () => {
+          if (!selectedScan) return;
+          try {
+            const res = await fetch(`/api/scans/${selectedScan.id}/re-explain`, { method: 'POST' });
+            if (res.ok) {
+              const updated = await res.json();
+              setSelectedScan(updated);
+              fetchScans();
+            }
+          } catch (e) {
+            console.error("Failed to re-explain", e);
+          }
+        }}
+      />
 
     </div>
   );
