@@ -904,11 +904,11 @@ export function ExplainableAIDossier({
         {/* Printable Official Clinical Dossier (Visible in print mode or standard footer) */}
         <div className="mt-8 pt-6 border-t border-slate-200 bg-white p-6 rounded-2xl space-y-4 print:border-none print:p-0">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-slate-500">
-            <div className="flex items-center gap-3">
-              <DrishtiLogo size="sm" className="h-8" />
+            <div className="flex items-center gap-3.5">
+              <DrishtiLogo size="custom" className="h-12 md:h-14 w-auto object-contain drop-shadow-xs" />
               <div>
-                <p className="font-bold text-slate-700">DRishti Tele-Ophthalmology AI Diagnostic Network</p>
-                <p className="text-[10px]">MathWorks SIH #26038 Certified • Edge AI Clinical Decision Support System</p>
+                <p className="font-bold text-slate-800 text-sm leading-tight">DRishti Tele-Ophthalmology AI Diagnostic Network</p>
+                <p className="text-[11px] text-slate-500 leading-normal">MathWorks SIH #26038 Certified • Edge AI Clinical Decision Support System</p>
               </div>
             </div>
             <div className="text-left sm:text-right">

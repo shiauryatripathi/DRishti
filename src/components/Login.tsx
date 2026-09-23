@@ -105,12 +105,12 @@ export function Login({ onLogin }: LoginProps) {
         {/* Decorative Top Accent */}
         <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600" />
 
-        {/* 3D Brand Logo */}
-        <div className="flex flex-col items-center mb-6 pt-2">
-          <div className="w-64 h-36 flex items-center justify-center -my-2 cursor-pointer transition-transform hover:scale-102">
-            <DrishtiLogo size="lg" variant="full" />
+        {/* Brand Logo - Prominent & High Resolution */}
+        <div className="flex flex-col items-center mb-6 pt-3">
+          <div className="w-full flex items-center justify-center cursor-pointer transition-transform hover:scale-103 py-1">
+            <DrishtiLogo size="lg" className="h-32 sm:h-36 md:h-40 w-auto max-w-[280px] drop-shadow-md" />
           </div>
-          <div className="flex items-center gap-2 mt-1">
+          <div className="flex items-center gap-2 mt-3">
             <span className="text-[10px] uppercase tracking-widest text-sky-700 bg-sky-50 border border-sky-200/70 font-mono font-bold px-2.5 py-0.5 rounded-full">
               SIH 2026 • Problem #26038
             </span>

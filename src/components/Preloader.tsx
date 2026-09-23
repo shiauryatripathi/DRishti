@@ -60,7 +60,7 @@ export function Preloader({ onComplete, durationMs = 1200 }: PreloaderProps) {
           className="w-full h-full object-contain"
         >
           {/* Fallback image if video is not yet placed */}
-          <DrishtiLogo size="xl" className="w-64 h-auto animate-pulse" />
+          <DrishtiLogo size="xl" className="h-44 sm:h-52 md:h-64 w-auto max-w-[85vw] animate-pulse drop-shadow-2xl" />
         </video>
       </div>
 

@@ -117,8 +117,14 @@ export function Sidebar({
   return (
     <aside className="w-64 bg-white border-r border-slate-200 flex flex-col h-full shrink-0 shadow-2xs transition-all duration-300 select-none">
       {onCloseMobile && (
-        <div className="h-14 px-4 flex items-center justify-between border-b border-slate-100 shrink-0 lg:hidden">
-          <DrishtiLogo size="sm" className="h-8" />
+        <div className="h-16 px-4 flex items-center justify-between border-b border-slate-100 shrink-0 lg:hidden">
+          <div className="flex items-center gap-2.5">
+            <DrishtiLogo size="custom" className="h-10 md:h-11 w-auto object-contain" />
+            <div className="flex flex-col">
+              <span className="text-sm font-black text-slate-900 leading-none">DRishti</span>
+              <span className="text-[9px] font-bold text-sky-600 uppercase tracking-wide">Diagnostic Desk</span>
+            </div>
+          </div>
           <button 
             onClick={onCloseMobile} 
             className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg cursor-pointer"

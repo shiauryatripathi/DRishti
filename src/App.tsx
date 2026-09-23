@@ -254,10 +254,18 @@ export default function App() {
             <Menu className="w-5 h-5" />
           </button>
           <div 
-            className="flex items-center space-x-2 cursor-pointer hover:opacity-90 transition-opacity" 
+            className="flex items-center space-x-2.5 cursor-pointer hover:opacity-90 transition-opacity" 
             onClick={() => setCurrentView('dashboard')}
           >
-            <DrishtiLogo size="sm" className="h-8 md:h-9" />
+            <DrishtiLogo size="custom" className="h-11 md:h-12 w-auto object-contain drop-shadow-xs" />
+            <div className="hidden sm:flex flex-col">
+              <span className="text-base font-black tracking-tight text-slate-900 leading-none">
+                DRishti
+              </span>
+              <span className="text-[9px] font-bold uppercase tracking-wider text-sky-600 leading-tight">
+                Tele-Ophthalmology AI
+              </span>
+            </div>
           </div>
         </div>
 
