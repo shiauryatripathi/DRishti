@@ -8,6 +8,7 @@ import { Scanner } from './components/Scanner';
 import { Advisor } from './components/Advisor';
 import { MathWorksPipeline } from './components/MathWorksPipeline';
 import { Login } from './components/Login';
+import { DrishtiLogo } from './components/DrishtiLogo';
 import { SettingsModal } from './components/SettingsModal';
 import { useKeyboardNavigation } from './lib/useKeyboardNavigation';
 import { Patient, Scan } from './types';
@@ -256,7 +257,7 @@ export default function App() {
             className="flex items-center space-x-2 cursor-pointer hover:opacity-90 transition-opacity" 
             onClick={() => setCurrentView('dashboard')}
           >
-            <img src="/logo.svg" alt="DRishti Logo" className="h-8 md:h-9 w-auto object-contain" />
+            <DrishtiLogo size="sm" className="h-8 md:h-9" />
           </div>
         </div>
 

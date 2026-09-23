@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { DrishtiLogo } from './DrishtiLogo';
 
 interface PreloaderProps {
   onComplete: () => void;
@@ -59,7 +60,7 @@ export function Preloader({ onComplete, durationMs = 1200 }: PreloaderProps) {
           className="w-full h-full object-contain"
         >
           {/* Fallback image if video is not yet placed */}
-          <img src="/logo.svg" alt="Loading" className="w-64 h-auto object-contain animate-pulse" />
+          <DrishtiLogo size="xl" className="w-64 h-auto animate-pulse" />
         </video>
       </div>
 

@@ -12,6 +12,7 @@ import {
   UserCheck
 } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { DrishtiLogo } from './DrishtiLogo';
 
 interface SidebarProps {
   currentView: string;
@@ -117,7 +118,7 @@ export function Sidebar({
     <aside className="w-64 bg-white border-r border-slate-200 flex flex-col h-full shrink-0 shadow-2xs transition-all duration-300 select-none">
       {onCloseMobile && (
         <div className="h-14 px-4 flex items-center justify-between border-b border-slate-100 shrink-0 lg:hidden">
-          <img src="/logo.svg" alt="DRishti Logo" className="h-8 w-auto object-contain" />
+          <DrishtiLogo size="sm" className="h-8" />
           <button 
             onClick={onCloseMobile} 
             className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg cursor-pointer"

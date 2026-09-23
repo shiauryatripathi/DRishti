@@ -27,6 +27,7 @@ import {
 import { Scan, Patient, XAIReport, XAIBiomarker, XAIQuadrantAnalysis, XAIDoItem, XAIDontItem } from '../types';
 import { cn } from '../lib/utils';
 import { ConfidenceGauge } from './ConfidenceGauge';
+import { DrishtiLogo } from './DrishtiLogo';
 
 export interface ExplainableAIDossierProps {
   scan: Scan;
@@ -903,9 +904,12 @@ export function ExplainableAIDossier({
         {/* Printable Official Clinical Dossier (Visible in print mode or standard footer) */}
         <div className="mt-8 pt-6 border-t border-slate-200 bg-white p-6 rounded-2xl space-y-4 print:border-none print:p-0">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-slate-500">
-            <div>
-              <p className="font-bold text-slate-700">DRishti Tele-Ophthalmology AI Diagnostic Network</p>
-              <p className="text-[10px]">MathWorks SIH #26038 Certified • Edge AI Clinical Decision Support System</p>
+            <div className="flex items-center gap-3">
+              <DrishtiLogo size="sm" className="h-8" />
+              <div>
+                <p className="font-bold text-slate-700">DRishti Tele-Ophthalmology AI Diagnostic Network</p>
+                <p className="text-[10px]">MathWorks SIH #26038 Certified • Edge AI Clinical Decision Support System</p>
+              </div>
             </div>
             <div className="text-left sm:text-right">
               <p className="font-mono text-[10px]">Dossier Hash: SHA256-RSCN-{scan.id.toString().padStart(6, '0')}</p>

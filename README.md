@@ -102,6 +102,27 @@ npm start
 
 ---
 
+## 🎨 Centralized Logo & Favicon Customization
+
+All logos and favicons across the entire platform are unified and loaded from **one central location: the `public/` directory**. No logos are hardcoded or embedded in React components.
+
+```text
+drishti-teleophthalmology/
+└── public/
+    ├── logo.png       <-- Primary logo image (PNG format, recommended 256x256 or higher)
+    ├── logo.svg       <-- Vector SVG logo banner
+    ├── favicon.ico    <-- Browser tab icon (ICO)
+    └── favicon.png    <-- Modern high-res browser tab icon (PNG)
+```
+
+To update the branding with your college, hospital, or team logo:
+1. Replace `public/logo.png` (or `public/logo.svg`) with your image.
+2. Replace `public/favicon.ico` / `public/favicon.png` if you want a custom browser tab icon.
+3. Refresh the browser (`Ctrl + F5` or `Cmd + Shift + R`).
+   - The **Login Portal**, **Main Header Bar**, **Sidebar**, **Preloader Splash**, **Printable Clinical Dossier**, and **Browser Favicon** will automatically update from `public/`.
+
+---
+
 ## 🔐 Clinical Credentials & Instant Access
 
 On the login screen, choose either credentials or click the **1-Click Team Access** buttons:
